@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <%= csrf_meta_tag %>
+    <%= render 'layouts/stylesheets' %>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application" %>
+  <script type="text/javascript">
+      $(document).ready(function(){
+        var maxLen = 140;
+        $('#micropost_content').keyup( function(){
+          if($(this).val().length > maxLen)
+            $(this).val($(this).val().substr(0, maxLen));
+        $('#counterText').remove();
+        if((140 - $(this).val().length) < 20) {
+	        $(this).after('<p> <span id = counterText class = red>'+ 'You can enter another ' + (140 - $(this).val().length) + '</span> </p>');
+        }
+        else {
+	        $(this).after('<p> <span id = counterText class = green>'+ 'You can enter another ' + (140 - $(this).val().length) + '</span> </p>');
+        }
+        });
+      });
+  </script>
+  </head>
+  <body>
+    <div class="container">
+      <%= render 'layouts/header' %>
+      <section class="round">
+        <% flash.each do |key, value| %>
+          <%= content_tag(:div, value, :class => "flash #{key}") %>
+        <% end %>
+        <%= yield %>
+      </section>
+      <%= render 'layouts/footer' %>
+      <%= debug(params) if Rails.env.development? %>
+    </div>
+  </body>
+</html>
+
